@@ -4,7 +4,6 @@
   "description": "Nightwatch Sample Tests",
   "main": "index.js",
   "scripts": {
-    "install": "nightwatch",
     "test:nightwatch:all": "npx nightwatch tests/nightwatch/",
     "test:nightwatch:bdd": "npx nightwatch tests/nightwatch/bdd-syntax",
     "test:nightwatch:exports": "npx nightwatch tests/nightwatch/exports-syntax",

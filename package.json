@@ -1,0 +1,26 @@
+{
+  "name": "nightwatch-demo",
+  "version": "1.0.0",
+  "description": "Nightwatch Sample Tests",
+  "main": "index.js",
+  "scripts": {
+    "install": "nightwatch",
+    "test:nightwatch:all": "npx nightwatch tests/nightwatch/",
+    "test:nightwatch:bdd": "npx nightwatch tests/nightwatch/bdd-syntax",
+    "test:nightwatch:exports": "npx nightwatch tests/nightwatch/exports-syntax",
+    "test:mocha": "npx nightwatch tests/mocha/ --env mocha_tests",
+    "test:cucumber": "npx nightwatch --env cucumber_tests tests/cucumber/step-definitions --require tests/cucumber/cucumber.conf.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@cucumber/cucumber": "^8.10.0",
+    "chromedriver": "^108.0.0",
+    "eslint": "^8.31.0",
+    "geckodriver": "^3.2.0",
+    "mochawesome": "^7.1.3",
+    "nightwatch": "^2.6.7",
+    "prettier": "^2.8.2"
+  }
+}

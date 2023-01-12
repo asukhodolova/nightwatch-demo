@@ -29,7 +29,7 @@ module.exports = {
   plugins: [],
 
   // See https://nightwatchjs.org/guide/concepts/test-globals.html
-  globals_path: "",
+  globals_path: "lib/globals.js",
 
   webdriver: {},
 
@@ -41,7 +41,6 @@ module.exports = {
   parallel_process_delay: 3000,
 
   test_settings: {
-    
     default: {
       disable_error_log: false,
       launch_url: "http://localhost",
@@ -72,6 +71,8 @@ module.exports = {
         options: {
           ui: "bdd",
           reporter: "list",
+          // uncomment to use custom Mocha reporter
+          reporter: "lib/custom-mocha-reporter.js",
         },
       },
     },

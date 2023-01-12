@@ -9,7 +9,7 @@ const {
 setDefaultTimeout(30000);
 
 Before(async function (testCase) {
-  console.log("Inside Cucumber Before hook");
+  console.log("---Cucumber Before hook---");
 
   if (!this.client) {
     console.error("Nightwatch instance was not created.");
@@ -20,13 +20,13 @@ Before(async function (testCase) {
 });
 
 After(() => {
-  console.log("Inside Cucumber After hook");
+  console.log("---Cucumber After hook---");
 });
 
 BeforeAll(() => {
-  console.log("Inside Cucumber BeforeAll hook");
+  console.log("---Cucumber BeforeAll hook---");
 });
 
 AfterAll(() => {
-  console.log("Inside Cucumber AfterAll hook");
+  console.log("---Cucumber AfterAll hook---");
 });

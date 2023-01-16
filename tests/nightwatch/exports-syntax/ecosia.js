@@ -5,16 +5,12 @@ const AgentReporter = require("../../../zebrunner-agent/agentReporter");
 AgentReporter.init();
 
 module.exports = {
-  beforeEach: function (browser, done) {
+  beforeEach: function (browser) {
     AgentReporter.startTestExecution(browser.currentTest);
-
-    done();
   },
 
-  afterEach: function (browser, done) {
+  afterEach: function (browser) {
     AgentReporter.finishTestExecution(browser.currentTest);
-
-    done()
   },
 
   after: function (browser, done) {

@@ -6,9 +6,12 @@
  * - retries - how many time to retry a failed testcase inside this test suite
  * - suiteRetries - how many times to retry the current test suite in case of an assertion failure or error
  */
+
+const AgentReporter = require("../../../zebrunner-agent/agentReporter");
+AgentReporter.init();
 describe("DuckDuckGo search", function () {
   // skip remaining testcases when one testcase fails
-  this.skipTestcasesOnFail = true;
+  this.skipTestcasesOnFail = false;
 
   // how many time to retry a failed testcase inside this test suite
   // this.retries(2);
@@ -20,13 +23,24 @@ describe("DuckDuckGo search", function () {
 
   before((browser) => browser.navigateTo("https://duckduckgo.com"));
 
-  after((browser) => browser.end());
-
-  beforeEach((browser, done) => {
-    console.log('------aaaaaaa---------')
-    console.log(browser.currentTest)
-    done()
+  beforeEach((browser) => {
+    console.log('BEFORE EACH FROM TEST')
+    AgentReporter.startTestExecution(browser.currentTest);
   });
+
+  afterEach((browser) => {
+    console.log('AFTER EACH FROM TEST')
+    AgentReporter.finishTestExecution(browser.currentTest);
+  });
+
+  after((browser, done) => {
+    console.log('AFTER FROM TEST')
+    browser.end(() => {
+      AgentReporter.terminate();
+      done();
+    });
+  });
+
 
   it("[FAIL] Search Nightwatch.js and check results", function (browser) {
     browser
@@ -37,14 +51,14 @@ describe("DuckDuckGo search", function () {
       .assert.textEquals(".results--main", SEARCH_VALUE); // should fail here
   });
 
-  // it("[SKIP] Search Nightwatch.js and check results", function (browser) {
-  //   browser
-  //     .refresh()
-  //     .waitForElementVisible("input[name=q]")
-  //     .clearValue("input[name=q]")
-  //     .sendKeys("input[name=q]", [SEARCH_VALUE])
-  //     .click('*[type="submit"]')
-  //     .assert.visible(".results--main")
-  //     .assert.textContains(".results--main", SEARCH_VALUE);
-  // });
+  it("[SKIP] Search Nightwatch.js and check results", function (browser) {
+    browser
+      .refresh()
+      .waitForElementVisible("input[name=q]")
+      .clearValue("input[name=q]")
+      .sendKeys("input[name=q]", [SEARCH_VALUE])
+      .click('*[type="submit"]')
+      .assert.visible(".results--main")
+      .assert.textContains(".results--main", SEARCH_VALUE);
+  });
 });

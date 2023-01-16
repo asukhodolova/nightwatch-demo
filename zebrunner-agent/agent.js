@@ -13,14 +13,6 @@ class Agent {
     this.#initIPCServer();
 
     this.#config = config.zebrunner;
-    // CONFIG {
-    //   hostName: 'https://solvdalexkirillov.zebrunner.com',
-    //       apiToken: 'EGRk61Xxl41T5XyWkdsJDgslkgUdULrmYpYiS0Zt65YT5NGjr6',
-    //       projectKey: 'ALEX',
-    //       environment: 'STAGE',
-    //       buildVersion: '1.0.1',
-    //       name: 'Nightwatch Agent'
-    // }
     this.#client = new Client({
       baseUrl: config.zebrunner.hostName,
       apiToken: config.zebrunner.apiToken,
@@ -34,41 +26,71 @@ class Agent {
 
   #terminateIPCServer = () => {
     this.#storage.testRunId = null;
-    this.#storage.resetAllTestExecutions()
+    this.#storage.resetAllTestExecutions();
 
     stopIPCServer(this.#unsubscribeServerEvents);
   };
 
   #startTestExecution = async (testExecutionData) => {
+    const testExecutionName = testExecutionData.name;
+
+    this.#storage.createTestExecution(testExecutionName);
+
     const { id, name } = await this.#client.startTestExecution(
       this.#storage.testRunId,
       testExecutionData
     );
 
-    this.#storage.addTestExecution(id, name);
+    this.#storage.addIdToTestExecution(id, name);
   };
 
   #finishTestExecution = async (testExecutionData) => {
-    const testExecutionId = this.#storage.getTestExecutionIdByName(
-      testExecutionData.name
-    );
-    delete testExecutionData.name;
+    console.log("FINISH TEST EXECUTION AGENT", testExecutionData.name);
 
-    this.#client.finishTestExecution(
-      this.#storage.testRunId,
-      testExecutionId,
-      testExecutionData
+    const testExecutionName = testExecutionData.name;
+
+    const testExecutionId = this.#storage.getTestExecutionIdByName(
+      testExecutionName
     );
+
+    if (testExecutionId) {
+      delete testExecutionData.name;
+
+      this.#client.finishTestExecution(
+        this.#storage.testRunId,
+        testExecutionId,
+        testExecutionData
+      );
+
+      this.#storage.updateTestExecutionSentStatus(testExecutionName, true);
+    }
+
+    this.#storage.addDataToTestExecution(testExecutionName, testExecutionData);
+  };
+
+  #finishUnsentTestExecutions = async () => {
+    const allUnsentTestExecutions = this.#storage.getAllUnsentTestExecutions();
+
+    allUnsentTestExecutions.map((el) => {
+      this.#client.finishTestExecution(this.#storage.testRunId, el.id, el.data);
+
+      this.#storage.updateTestExecutionSentStatus(el.name, true);
+    });
   };
 
   #subscribeServerEvents = (server) => {
     server.on(AGENT_EVENTS.START_TEST_EXECUTION, this.#startTestExecution);
     server.on(AGENT_EVENTS.FINISH_TEST_EXECUTION, this.#finishTestExecution);
+    server.on(
+      AGENT_EVENTS.FINISH_UNSENT_TEST_EXECUTIONS,
+      this.#finishUnsentTestExecutions
+    );
   };
 
   #unsubscribeServerEvents = (server) => {
     server.off(AGENT_EVENTS.START_TEST_EXECUTION, "*");
     server.off(AGENT_EVENTS.FINISH_TEST_EXECUTION, "*");
+    server.off(AGENT_EVENTS.FINISH_UNSENT_TEST_EXECUTIONS, "*");
   };
 
   startTestRun = async () => {

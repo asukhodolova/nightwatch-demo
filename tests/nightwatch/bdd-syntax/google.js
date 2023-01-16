@@ -16,31 +16,34 @@
  * - [VERIFY] should see query value in url SUCCESS;
  * - [VERIFY] should see all menu items FAIL;
  */
+const AgentReporter = require("../../../zebrunner-agent/agentReporter");
+AgentReporter.init();
 describe("Google search", function () {
   this.skipTestcasesOnFail = false;
 
   const SEARCH_VALUE = "Zebrunner";
   const homePage = browser.page.google.search();
 
-  before(() => {
-    console.log("Test suite is started");
-  });
+  beforeEach((browser) => {
+    console.log('BEFORE EACH FROM TEST')
+    AgentReporter.startTestExecution(browser.currentTest);
 
-  after((browser) => {
-    console.log("Test suite is finished");
-    browser.end();
-  });
-
-  beforeEach(() => {
-    console.log("Test case is started");
-    console.log("Perform a search with value=" + SEARCH_VALUE);
     homePage.navigate();
     homePage.setValue("@searchBar", SEARCH_VALUE);
     homePage.submit();
   });
 
-  afterEach(() => {
-    console.log("Test case is finished");
+  afterEach((browser) => {
+    console.log('AFTER EACH FROM TEST')
+    AgentReporter.finishTestExecution(browser.currentTest);
+  });
+
+  after((browser, done) => {
+    console.log('AFTER FROM TEST')
+    browser.end(() => {
+      AgentReporter.terminate();
+      done();
+    });
   });
 
   it("[EXPECT] should find Zebrunner in results SUCCESS", function (browser) {

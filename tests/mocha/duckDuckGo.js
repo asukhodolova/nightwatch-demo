@@ -2,12 +2,30 @@
  * Example to run using Mocha https://nightwatchjs.org/guide/writing-tests/using-mocha.html with:
  * - alternative aliases (context and specify)
  */
+
+const AgentReporter = require("../../zebrunner-agent/agentReporter");
+AgentReporter.init();
 describe("DuckDuckGo search", function () {
-  beforeEach(() => {
+
+  beforeEach((browser) => {
+    console.log('BEFORE EACH FROM TEST')
+    AgentReporter.startTestExecution(browser.currentTest);
+
     browser.navigateTo("https://duckduckgo.com");
   });
 
-  after((browser) => browser.end());
+  afterEach((browser) => {
+    console.log('AFTER EACH FROM TEST')
+    AgentReporter.finishTestExecution(browser.currentTest);
+  });
+
+  after((browser, done) => {
+    console.log('AFTER FROM TEST')
+    browser.end(() => {
+      AgentReporter.terminate();
+      done();
+    });
+  });
 
   context("Perform search and verify result", function () {
     specify("Search Zebrunner and check results", function (browser) {

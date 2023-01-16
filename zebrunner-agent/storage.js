@@ -10,12 +10,36 @@ class Storage {
     this.#testRunId = id;
   }
 
-  addTestExecution = (id, name) => {
-    this.#testExecutions.push({ name, id });
+  createTestExecution = (name) => {
+    this.#testExecutions.push({ name, isSent: false });
+  };
+
+  #getTestExecutionByName = (name) => {
+    return this.#testExecutions.find((el) => el.name === name);
+  };
+
+  addIdToTestExecution = (id, name) => {
+    this.#getTestExecutionByName(name).id = id;
   };
 
   getTestExecutionIdByName = (name) => {
-    return this.#testExecutions.find((el) => el.name === name).id;
+    return this.#testExecutions.find((el) => el.name === name)?.id;
+  };
+
+  updateTestExecutionSentStatus = (name, isSent) => {
+    this.#testExecutions.find((el) => el.name === name).isSent = isSent;
+  };
+
+  addDataToTestExecution = (name, data) => {
+    this.#getTestExecutionByName(name).data = data
+  };
+
+  getAllTestExecutions = () => {
+    return this.#testExecutions;
+  };
+
+  getAllUnsentTestExecutions = () => {
+    return this.#testExecutions.filter((el) => el.isSent === false);
   };
 
   resetAllTestExecutions = () => {

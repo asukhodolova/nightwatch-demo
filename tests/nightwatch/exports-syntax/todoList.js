@@ -1,7 +1,25 @@
 /**
  * Example in 'exports' test syntax https://nightwatchjs.org/guide/writing-tests/test-syntax-exports.html
  */
+const AgentReporter = require("../../../zebrunner-agent/agentReporter");
+AgentReporter.init();
+
 module.exports = {
+  beforeEach: function (browser) {
+    AgentReporter.startTestExecution(browser.currentTest);
+  },
+
+  afterEach: function (browser) {
+    AgentReporter.finishTestExecution(browser.currentTest);
+  },
+
+  after: function (browser, done) {
+    browser.end(() => {
+      AgentReporter.terminate();
+      done();
+    });
+  },
+
   "step 1: navigate to todo site": async function (browser) {
     await browser
       .navigateTo("https://todo-vue3-vite.netlify.app/")

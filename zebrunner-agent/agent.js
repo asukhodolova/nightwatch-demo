@@ -45,8 +45,6 @@ class Agent {
   };
 
   #finishTestExecution = async (testExecutionData) => {
-    console.log("FINISH TEST EXECUTION AGENT", testExecutionData.name);
-
     const testExecutionName = testExecutionData.name;
 
     const testExecutionId = this.#storage.getTestExecutionIdByName(

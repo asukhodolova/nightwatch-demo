@@ -93,9 +93,24 @@ describe("Google search", function () {
   it("[VERIFY] should see all menu items FAIL", function (browser) {
     const resultsPage = browser.page.google.searchResults();
     resultsPage.verify.elementHasCount("#hdtb .hdtb-mitem", 3); // should fail here
-    resultsPage.verify.section("@menu").to.be.visible;
+    resultsPage.expect.section("@menu").to.be.visible;
 
     const menuSection = resultsPage.section.menu;
     menuSection.expect.element("@all").to.be.visible;
   });
+
+  it('should fail with ReferenceError', function () {
+    assert.equal([1, 2, 3].indexOf(4), -1);
+  });
+
+  it('should fail with TypeError', function () {
+    throw new TypeError('Hello', "someFile.js", 10) 
+  });
+
+  it.only('should fail with Error', function () {
+    const resultsPage = browser.page.google.searchResults();
+    resultsPage.verify.elementHasCount("#hdtb .hdtb-mitem", 5); 
+    resultsPage.verify.section("@menu").to.be.visible; // should fail here
+  });
+  
 });

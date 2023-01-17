@@ -11,7 +11,7 @@ const AgentReporter = require("../../../zebrunner-agent/agentReporter");
 AgentReporter.init();
 describe("DuckDuckGo search", function () {
   // skip remaining testcases when one testcase fails
-  this.skipTestcasesOnFail = false;
+  this.skipTestcasesOnFail = true;
 
   // how many time to retry a failed testcase inside this test suite
   // this.retries(2);

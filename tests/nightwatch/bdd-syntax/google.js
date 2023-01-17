@@ -107,10 +107,10 @@ describe("Google search", function () {
     throw new TypeError('Hello', "someFile.js", 10) 
   });
 
-  it.only('should fail with Error', function () {
+  it('should fail with Error', function () {
     const resultsPage = browser.page.google.searchResults();
     resultsPage.verify.elementHasCount("#hdtb .hdtb-mitem", 5); 
     resultsPage.verify.section("@menu").to.be.visible; // should fail here
   });
-  
+
 });

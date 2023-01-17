@@ -25,3 +25,29 @@ To be able to run in parallel, add `--parallel` argument, for example:
 `npm run test:cucumber -- --parallel=2`
 
 For more CLI arguments, refer to the [documentation](https://nightwatchjs.org/guide/running-tests/using-the-cli-test-runner.html).
+
+### Overriding the desired capabilities
+
+1. Using a custom [environment](https://nightwatchjs.org/guide/configuration/define-test-environments.html) defined in `nightwatch.conf.js` with [env variables](https://nightwatchjs.org/guide/configuration/using-env-variables-in-your-config.html). In this case, overriding can be done via running a command:
+
+`BROWSER=firefox npx nightwatch tests/mocha/google.js --env remote.custom`
+
+2. Test suite-specific capabilities: can be overriden only for specific `describe`, for example:
+
+```
+describe("Google search", function () {
+  this.desiredCapabilities = {
+    browserName: 'safari'
+  };
+  ...
+```
+
+3. Using [programmatic API](https://nightwatchjs.org/api/programmatic/#programmatic-api) that can be used for creating your custom runner and update capabilities.
+
+### Rerun the tests
+
+With adding following CLI arguments:
+- `--test` - runs only the specified test suite/module. By default the runner will attempt to run all tests in the src_folders settings folder(s) and their subfolders
+- `--testcase` - used only together with --test. Runs the specified testcase from the current suite/module
+
+`npx nightwatch --env remote.chrome --test tests/mocha/google.js --testcase "[EXPECT] should find Zebrunner in results SUCCESS"`

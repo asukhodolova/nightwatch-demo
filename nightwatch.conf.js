@@ -42,12 +42,12 @@ module.exports = {
     // video: false,
     // videoUploadOnPasses: false,
     // reporter: "./modules/lib/cypress-zebrunner.js",
-    hostName: 'https://solvdalexkirillov.zebrunner.com',
-    apiToken: 'EGRk61Xxl41T5XyWkdsJDgslkgUdULrmYpYiS0Zt65YT5NGjr6',
-    projectKey: 'ALEX',
-    environment: 'STAGE',
-    buildVersion: '1.0.1',
-    name: 'Nightwatch Agent',
+    hostName: "https://solvdalexkirillov.zebrunner.com",
+    apiToken: "EGRk61Xxl41T5XyWkdsJDgslkgUdULrmYpYiS0Zt65YT5NGjr6",
+    projectKey: "ALEX",
+    environment: "STAGE",
+    buildVersion: "1.0.1",
+    name: "Nightwatch Agent",
     // reporterOptions: {
     //   reportingServerHostname: "https://dev.zebrunner.org",
     //   reportingServerAccessToken:
@@ -84,6 +84,42 @@ module.exports = {
       webdriver: {
         start_process: true,
         server_path: "",
+      },
+    },
+
+    remote: {
+      // Info on all the available options with "selenium":
+      // https://nightwatchjs.org/guide/reference/settings.html#selenium-server-settings
+      selenium: {
+        start_process: false,
+        server_path: "",
+        host: "localhost",
+        port: 4444,
+      },
+
+      username: "${REMOTE_USERNAME}",
+      access_key: "${REMOTE_ACCESS_KEY}",
+
+      webdriver: {
+        keep_alive: true,
+        start_process: false,
+      },
+    },
+
+    "remote.chrome": {
+      extends: "remote",
+      desiredCapabilities: {
+        browserName: "chrome",
+        "goog:chromeOptions": {
+          w3c: true,
+        },
+      },
+    },
+
+    "remote.custom": {
+      extends: "remote",
+      desiredCapabilities: {
+        browserName: "${BROWSER}",
       },
     },
 

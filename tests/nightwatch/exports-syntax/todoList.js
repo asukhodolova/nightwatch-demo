@@ -6,6 +6,7 @@ AgentReporter.init();
 
 module.exports = {
   beforeEach: function (browser) {
+    console.log('---TODO_BEFORE_EACH---')
     AgentReporter.startTestExecution(browser.currentTest);
   },
 

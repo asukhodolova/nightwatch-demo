@@ -36,6 +36,8 @@ class Agent {
 
     this.#storage.createTestExecution(testExecutionName);
 
+    console.log('---START_TEST_EXECUTION_AGENT---', testExecutionName)
+
     const { id, name } = await this.#client.startTestExecution(
       this.#storage.testRunId,
       testExecutionData
@@ -50,6 +52,8 @@ class Agent {
     const testExecutionId = this.#storage.getTestExecutionIdByName(
       testExecutionName
     );
+
+    console.log('---FINISH_TEST_EXECUTION_AGENT---', testExecutionId, testExecutionName)
 
     if (testExecutionId) {
       delete testExecutionData.name;
@@ -69,29 +73,29 @@ class Agent {
   #finishUnsentTestExecutions = async () => {
     const allUnsentTestExecutions = this.#storage.getAllUnsentTestExecutions();
 
-    allUnsentTestExecutions.map((el) => {
-      this.#client.finishTestExecution(this.#storage.testRunId, el.id, el.data);
+    console.log('---FINISH_ALL_UNSENT_EXECUTION_AGENT---', allUnsentTestExecutions)
 
-      this.#storage.updateTestExecutionSentStatus(el.name, true);
-    });
+    if (allUnsentTestExecutions.length) {
+      allUnsentTestExecutions.map((el) => {
+        this.#client.finishTestExecution(this.#storage.testRunId, el.id, el.data);
+
+        this.#storage.updateTestExecutionSentStatus(el.name, true);
+      });
+    }
   };
 
   #subscribeServerEvents = (server) => {
     server.on(AGENT_EVENTS.START_TEST_EXECUTION, this.#startTestExecution);
     server.on(AGENT_EVENTS.FINISH_TEST_EXECUTION, this.#finishTestExecution);
-    server.on(
-      AGENT_EVENTS.FINISH_UNSENT_TEST_EXECUTIONS,
-      this.#finishUnsentTestExecutions
-    );
   };
 
   #unsubscribeServerEvents = (server) => {
     server.off(AGENT_EVENTS.START_TEST_EXECUTION, "*");
     server.off(AGENT_EVENTS.FINISH_TEST_EXECUTION, "*");
-    server.off(AGENT_EVENTS.FINISH_UNSENT_TEST_EXECUTIONS, "*");
   };
 
   startTestRun = async () => {
+    console.log('---START_TEST_RUN_AGENT---')
     await this.#client.getAccessToken();
 
     this.#storage.testRunId = await this.#client.startTestRun(
@@ -103,6 +107,8 @@ class Agent {
   };
 
   finishTestRun = async () => {
+    console.log('---FINISH_TEST_RUN_AGENT---')
+    await this.#finishUnsentTestExecutions()
     await this.#client.finishTestRun(this.#storage.testRunId);
 
     this.#terminateIPCServer();

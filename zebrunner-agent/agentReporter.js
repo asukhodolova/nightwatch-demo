@@ -9,7 +9,6 @@ const AgentReporter = {
     connectICPClient();
   },
   terminate: () => {
-    publishICPEvent(AGENT_EVENTS.FINISH_UNSENT_TEST_EXECUTIONS);
     disconnectICPClient();
   },
   startTestExecution: (currentTest) => {

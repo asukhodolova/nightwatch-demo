@@ -38,40 +38,6 @@ module.exports = {
     workers: "auto",
   },
 
-  reporterOptions: {
-    reportingServerHostname: "https://solvdalexkirillov.zebrunner.com",
-    reportingServerAccessToken: "EGRk61Xxl41T5XyWkdsJDgslkgUdULrmYpYiS0Zt65YT5NGjr6",
-    reportingProjectKey: "ALEX",
-    reportingRunEnvironment: "STAGE",
-    reportingRunBuild: "1.0-alpha",
-    reportingRunDisplayName: "My regression suite",
-    reportingRunLocale: "en_US",
-    reportingSlackChannels: "",
-    reportingEmailRecipients: ""
-  },
-
-  // zebrunner: {
-  //   // video: false,
-  //   // videoUploadOnPasses: false,
-  //   // reporter: "./modules/lib/cypress-zebrunner.js",
-  //   hostName: "https://solvdalexkirillov.zebrunner.com",
-  //   apiToken: "EGRk61Xxl41T5XyWkdsJDgslkgUdULrmYpYiS0Zt65YT5NGjr6",
-  //   projectKey: "ALEX",
-  //   environment: "STAGE",
-  //   buildVersion: "1.0.1",
-  //   name: "Nightwatch Agent",
-  //   // reporterOptions: {
-  //   //   reportingServerHostname: "https://dev.zebrunner.org",
-  //   //   reportingServerAccessToken:
-  //   //     "zh1bPucM5EI0Lqq5tqqyqyM0ZbSm6Etz3ywLrtvVYQ2XiIe2FK",
-  //   //   reportingProjectKey: "RNS",
-  //   //   reportingRunEnvironment: "STAGE",
-  //   //   reportingRunBuild: "1.0-alpha",
-  //   //   reportingRunDisplayName: "Tst",
-  //   //   reportingRunLocale: "en_US",
-  //   // },
-  // },
-
   parallel_process_delay: 3000,
 
   test_settings: {
@@ -141,8 +107,24 @@ module.exports = {
         options: {
           ui: "bdd",
           // reporter: "list",
-          // uncomment to use custom Mocha reporter
           reporter: "../javascript-agent-nightwatch/index.js",
+          reporterOptions: {
+            reportDir: './output',
+            zebrunnerConfig: {
+              enabled: true,
+              projectKey: 'DEF',
+              server: {
+                hostname: 'https://mycompany.com/',
+                accessToken: 'yourAccessToken'
+              },
+              run: {
+                displayName: "Demo run",
+                build: 'alpha-1',
+                environment: 'Local',
+                locale: 'en_US'
+              },
+            }
+          }
         },
       },
     },

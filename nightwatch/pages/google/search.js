@@ -8,26 +8,38 @@
 
 const searchCommands = {
   submit() {
-    this.waitForElementVisible("@submitButton", 1000).click("@submitButton");
-
+    this.sendKeys('@searchBar',browser.Keys.ENTER);
     this.pause(1000);
-
-    return this; // for command-chaining
-  },
+    return this;
+  }
 };
 
-module.exports = {
-  url: "https://google.no",
+const consentModal = '[aria-modal="true"]';
 
-  commands: [searchCommands],
+module.exports = {
+  url: 'https://google.no',
+  commands: [
+    searchCommands
+  ],
+
+  sections: {
+    consentModal: {
+      selector: consentModal,
+      elements: {
+        rejectAllButton: '.GzLjMd button:nth-child(1)'
+      }
+    }
+  },
 
   elements: {
+    consentModal,
+
     searchBar: {
-      selector: "input[name=q]",
+      selector: 'input[name=q]'
     },
 
     submitButton: {
-      selector: 'input[value="Google Search"]',
-    },
-  },
+      selector: 'input[type="submit"]'
+    }
+  }
 };

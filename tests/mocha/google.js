@@ -23,13 +23,18 @@ describe("Google search", function () {
 
   let homePage;
 
-  before(function (browser, done) {
-    console.log("Test suite is started");
+  before(async (browser) => {
     homePage = browser.page.google.search();
-    done();
+    homePage.navigate();
+    const consentPresent = await homePage.isPresent('@consentModal');
+
+    if (consentPresent) {
+      const {consentModal} = homePage.section;
+      await consentModal.click('@rejectAllButton');
+    }
   });
 
-  beforeEach((browser) => {
+  beforeEach(() => {
     homePage.navigate();
     homePage.setValue("@searchBar", SEARCH_VALUE);
     homePage.submit();

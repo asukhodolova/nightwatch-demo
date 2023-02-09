@@ -7,8 +7,6 @@
  * - suiteRetries - how many times to retry the current test suite in case of an assertion failure or error
  */
 
-const AgentReporter = require("../../../zebrunner-agent/agentReporter");
-AgentReporter.init();
 describe("DuckDuckGo search", function () {
   // skip remaining testcases when one testcase fails
   this.skipTestcasesOnFail = true;
@@ -22,25 +20,6 @@ describe("DuckDuckGo search", function () {
   const SEARCH_VALUE = "Nightwatch.js";
 
   before((browser) => browser.navigateTo("https://duckduckgo.com"));
-
-  beforeEach((browser) => {
-    console.log('BEFORE EACH FROM TEST')
-    AgentReporter.startTestExecution(browser.currentTest);
-  });
-
-  afterEach((browser) => {
-    console.log('AFTER EACH FROM TEST')
-    AgentReporter.finishTestExecution(browser.currentTest);
-  });
-
-  after((browser, done) => {
-    console.log('AFTER FROM TEST')
-    browser.end(() => {
-      AgentReporter.terminate();
-      done();
-    });
-  });
-
 
   it("[FAIL] Search Nightwatch.js and check results", function (browser) {
     browser

@@ -29,7 +29,7 @@ describe("Google search", function () {
     const consentPresent = await homePage.isPresent('@consentModal');
 
     if (consentPresent) {
-      const {consentModal} = homePage.section;
+      const { consentModal } = homePage.section;
       await consentModal.click('@rejectAllButton');
     }
   });
@@ -69,6 +69,9 @@ describe("Google search", function () {
     browser.assert.urlEquals("https://google.com/"); // should fail here
   });
 
+  it("Empty test should SUCCESS", function (browser) {
+  });
+
   it("[NoSuchElementError] should open the first result FAIL", function (browser) {
     const resultsPage = browser.page.google.searchResults();
     resultsPage.expect.element("@firstResult").to.be.present;
@@ -76,6 +79,9 @@ describe("Google search", function () {
     resultsPage.openFirstResult();
     browser.waitForElementPresent("#register").click("#register"); // should fail here
     browser.assert.urlEquals("/register");
+  });
+
+  it.skip("SKIPPED test", function (browser) {
   });
 
   it("[VERIFY] should see query value in url SUCCESS", function (browser) {
@@ -87,7 +93,6 @@ describe("Google search", function () {
   it("[VERIFY] should see all menu items FAIL", function (browser) {
     const resultsPage = browser.page.google.searchResults();
     resultsPage.verify.elementHasCount("#hdtb .hdtb-mitem", 3); // should fail here
-    resultsPage.verify.section("@menu").to.be.visible;
 
     const menuSection = resultsPage.section.menu;
     menuSection.expect.element("@all").to.be.visible;

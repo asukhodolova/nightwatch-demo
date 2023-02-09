@@ -49,6 +49,7 @@ module.exports = {
         enabled: true,
         path: "screens",
         on_failure: true,
+        on_error: true,
       },
 
       desiredCapabilities: {
@@ -106,25 +107,24 @@ module.exports = {
         type: "mocha",
         options: {
           ui: "bdd",
-          // reporter: "list",
-          reporter: "../javascript-agent-nightwatch/index.js",
+          //reporter: "../javascript-agent-nightwatch/index.js",
+          reporter: "@zebrunner/javascript-agent-nightwatch",
           reporterOptions: {
-            reportDir: './output',
+            reportDir: "./output",
             zebrunnerConfig: {
               enabled: true,
-              projectKey: 'DEF',
+              projectKey: "DEF",
               server: {
-                hostname: 'https://mycompany.com/',
-                accessToken: 'yourAccessToken'
+                hostname: "https://mycompany.com/",
+                accessToken: "yourAccessToken",
               },
               run: {
                 displayName: "Demo run",
-                build: 'alpha-1',
-                environment: 'Local',
-                locale: 'en_US'
+                build: "alpha-1",
+                environment: "Local",
               },
-            }
-          }
+            },
+          },
         },
       },
     },

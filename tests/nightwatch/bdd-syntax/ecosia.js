@@ -6,27 +6,10 @@
  * - it() / test() / specify()
  */
 
-const AgentReporter = require("../../../zebrunner-agent/agentReporter");
-AgentReporter.init();
 context("Ecosia search", function () {
+
   beforeEach((browser) => {
-    console.log('BEFORE EACH FROM TEST')
-    AgentReporter.startTestExecution(browser.currentTest);
-
     browser.navigateTo("https://www.ecosia.org/");
-  });
-
-  afterEach((browser) => {
-    console.log('AFTER EACH FROM TEST')
-    AgentReporter.finishTestExecution(browser.currentTest);
-  });
-
-  after((browser, done) => {
-    console.log('AFTER FROM TEST')
-    browser.end(() => {
-      AgentReporter.terminate();
-      done();
-    });
   });
 
   it("Demo ecosia.org 1 via it()", function (browser) {

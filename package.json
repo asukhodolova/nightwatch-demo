@@ -7,7 +7,7 @@
     "test:nightwatch:all": "npx nightwatch tests/nightwatch/",
     "test:nightwatch:bdd": "npx nightwatch tests/nightwatch/bdd-syntax",
     "test:nightwatch:exports": "npx nightwatch tests/nightwatch/exports-syntax",
-    "test:mocha": "npx nightwatch tests/mocha/ --env mocha_tests",
+    "test:mocha": "npx nightwatch tests/mocha/bdd --env mocha_tests",
     "test:cucumber": "npx nightwatch --env cucumber_tests tests/cucumber/step-definitions --require tests/cucumber/cucumber.conf.js"
   },
   "keywords": [],
@@ -23,6 +23,7 @@
     "prettier": "^2.8.2"
   },
   "dependencies": {
+    "@zebrunner/javascript-agent-nightwatch": "^1.0.0",
     "node-ipc": "^11.1.0"
   }
 }

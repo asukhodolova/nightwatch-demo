@@ -6,10 +6,32 @@
  * - it() / test() / specify()
  */
 
+const {
+  ReporterAPI,
+} = require("../../../../javascript-agent-nightwatch/lib/nightwatch/realTimeReporter");
+ReporterAPI.init();
 context("Ecosia search", function () {
-
   beforeEach((browser) => {
+    console.log('BEFORE EACH FROM TEST')
+
+    ReporterAPI.startTest(browser.currentTest);
+
     browser.navigateTo("https://www.ecosia.org/");
+  });
+
+  afterEach((browser) => {
+    console.log('AFTER EACH FROM TEST')
+
+    ReporterAPI.finishTest(browser.currentTest);
+  });
+
+  after((browser, done) => {
+    console.log('AFTER FROM TEST')
+
+    browser.end(() => {
+      ReporterAPI.destroy();
+      done();
+    });
   });
 
   it("Demo ecosia.org 1 via it()", function (browser) {

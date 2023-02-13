@@ -7,6 +7,10 @@
  * - suiteRetries - how many times to retry the current test suite in case of an assertion failure or error
  */
 
+const {
+  ReporterAPI,
+} = require("../../../../javascript-agent-nightwatch/lib/nightwatch/realTimeReporter");
+ReporterAPI.init();
 describe("DuckDuckGo search", function () {
   // skip remaining testcases when one testcase fails
   this.skipTestcasesOnFail = true;
@@ -20,6 +24,27 @@ describe("DuckDuckGo search", function () {
   const SEARCH_VALUE = "Nightwatch.js";
 
   before((browser) => browser.navigateTo("https://duckduckgo.com"));
+
+  beforeEach((browser) => {
+    console.log("BEFORE EACH FROM TEST");
+
+    ReporterAPI.startTest(browser.currentTest);
+  });
+
+  afterEach((browser) => {
+    console.log("AFTER EACH FROM TEST");
+
+    ReporterAPI.finishTest(browser.currentTest);
+  });
+
+  after((browser, done) => {
+    console.log("AFTER FROM TEST");
+
+    browser.end(() => {
+      ReporterAPI.destroy();
+      done();
+    });
+  });
 
   it("[FAIL] Search Nightwatch.js and check results", function (browser) {
     browser

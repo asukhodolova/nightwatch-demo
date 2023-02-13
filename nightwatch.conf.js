@@ -40,6 +40,24 @@ module.exports = {
 
   parallel_process_delay: 3000,
 
+  reporterOptions: {
+    reportDir: './output',
+    zebrunnerConfig: {
+      enabled: true,
+      projectKey: 'ALEX',
+      server: {
+        hostname: 'https://solvdalexkirillov.zebrunner.com',
+        accessToken: 'EGRk61Xxl41T5XyWkdsJDgslkgUdULrmYpYiS0Zt65YT5NGjr6'
+      },
+      run: {
+        displayName: "Demo run",
+        build: 'alpha-1',
+        environment: 'Local',
+        locale: 'en_US'
+      },
+    }
+  },
+
   test_settings: {
     default: {
       disable_error_log: false,
@@ -107,24 +125,25 @@ module.exports = {
         type: "mocha",
         options: {
           ui: "bdd",
-          //reporter: "../javascript-agent-nightwatch/index.js",
-          reporter: "@zebrunner/javascript-agent-nightwatch",
+          // reporter: "list",
+          reporter: "../javascript-agent-nightwatch/index.js",
           reporterOptions: {
-            reportDir: "./output",
+            reportDir: './output',
             zebrunnerConfig: {
               enabled: true,
-              projectKey: "DEF",
+              projectKey: 'ALEX',
               server: {
-                hostname: "https://mycompany.com/",
-                accessToken: "yourAccessToken",
+                hostname: 'https://solvdalexkirillov.zebrunner.com',
+                accessToken: 'EGRk61Xxl41T5XyWkdsJDgslkgUdULrmYpYiS0Zt65YT5NGjr6'
               },
               run: {
                 displayName: "Demo run",
-                build: "alpha-1",
-                environment: "Local",
+                build: 'alpha-1',
+                environment: 'Local',
+                locale: 'en_US'
               },
-            },
-          },
+            }
+          }
         },
       },
     },

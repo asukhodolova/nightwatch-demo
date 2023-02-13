@@ -16,17 +16,37 @@
  * - [VERIFY] should see query value in url SUCCESS;
  * - [VERIFY] should see all menu items FAIL;
  */
-
+const {
+  ReporterAPI,
+} = require("../../../../javascript-agent-nightwatch/lib/nightwatch/realTimeReporter");
+ReporterAPI.init();
 describe("Google search", function () {
   this.skipTestcasesOnFail = false;
 
   const SEARCH_VALUE = "Zebrunner";
   const homePage = browser.page.google.search();
 
-  beforeEach(() => {
+  beforeEach((browser) => {
+    console.log('BEFORE EACH FROM TEST')
+    ReporterAPI.startTest(browser.currentTest);
+
     homePage.navigate();
     homePage.setValue("@searchBar", SEARCH_VALUE);
     homePage.submit();
+  });
+
+  afterEach((browser) => {
+    console.log('AFTER EACH FROM TEST')
+
+    ReporterAPI.finishTest(browser.currentTest);
+  });
+
+  after((browser, done) => {
+    console.log('AFTER FROM TEST')
+    browser.end(() => {
+      ReporterAPI.destroy();
+      done();
+    });
   });
 
   it("[EXPECT] should find Zebrunner in results SUCCESS", function (browser) {
@@ -82,15 +102,15 @@ describe("Google search", function () {
     menuSection.expect.element("@all").to.be.visible;
   });
 
-  it('should FAIL with ReferenceError', function () {
+  it('should fail with ReferenceError', function () {
     assert.equal([1, 2, 3].indexOf(4), -1);
   });
 
-  it('should FAIL with TypeError', function () {
+  it('should fail with TypeError', function () {
     throw new TypeError('Hello', "someFile.js", 10)
   });
 
-  it('should FAIL with Error', function () {
+  it('should fail with Error', function () {
     const resultsPage = browser.page.google.searchResults();
     resultsPage.verify.elementHasCount("#hdtb .hdtb-mitem", 5);
     resultsPage.verify.section("@menu").to.be.visible; // should fail here

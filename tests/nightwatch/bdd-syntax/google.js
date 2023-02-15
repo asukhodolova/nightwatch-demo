@@ -26,6 +26,16 @@ describe("Google search", function () {
   const SEARCH_VALUE = "Zebrunner";
   const homePage = browser.page.google.search();
 
+  before(async (browser) => {
+    homePage.navigate();
+    const consentPresent = await homePage.isPresent('@consentModal');
+
+    if (consentPresent) {
+      const { consentModal } = homePage.section;
+      await consentModal.click('@rejectAllButton');
+    }
+  });
+
   beforeEach((browser) => {
     console.log('BEFORE EACH FROM TEST')
     ReporterAPI.startTest(browser.currentTest);

@@ -16,10 +16,10 @@
  * - [VERIFY] should see query value in url SUCCESS;
  * - [VERIFY] should see all menu items FAIL;
  */
-const {
-  ReporterAPI,
-} = require("../../../../javascript-agent-nightwatch/lib/nightwatch/realTimeReporter");
-ReporterAPI.init();
+
+//const { ReporterAPI} = require("../../../../javascript-agent-nightwatch/lib/nightwatch/realTimeReporter");
+const { ReporterAPI } = require("@zebrunner/javascript-agent-nightwatch/lib/nightwatch/realTimeReporter");
+
 describe("Google search", function () {
   this.skipTestcasesOnFail = false;
 
@@ -28,16 +28,16 @@ describe("Google search", function () {
 
   before(async (browser) => {
     homePage.navigate();
-    const consentPresent = await homePage.isPresent('@consentModal');
+    const consentPresent = await homePage.isPresent("@consentModal");
 
     if (consentPresent) {
       const { consentModal } = homePage.section;
-      await consentModal.click('@rejectAllButton');
+      await consentModal.click("@rejectAllButton");
     }
   });
 
   beforeEach((browser) => {
-    console.log('BEFORE EACH FROM TEST')
+    console.log("---TEST BEFORE_EACH---");
     ReporterAPI.startTest(browser.currentTest);
 
     homePage.navigate();
@@ -46,17 +46,8 @@ describe("Google search", function () {
   });
 
   afterEach((browser) => {
-    console.log('AFTER EACH FROM TEST')
-
+    console.log("---TEST AFTER_EACH---");
     ReporterAPI.finishTest(browser.currentTest);
-  });
-
-  after((browser, done) => {
-    console.log('AFTER FROM TEST')
-    browser.end(() => {
-      ReporterAPI.destroy();
-      done();
-    });
   });
 
   it("[EXPECT] should find Zebrunner in results SUCCESS", function (browser) {
@@ -97,11 +88,15 @@ describe("Google search", function () {
     browser.assert.urlEquals("/register");
   });
 
+  it("empty test should pass", function (browser) {});
+
   it("[VERIFY] should see query value in url SUCCESS", function (browser) {
     const resultsPage = browser.page.google.searchResults();
     resultsPage.verify.urlContains("search?q=" + SEARCH_VALUE);
     resultsPage.verify.titleContains(SEARCH_VALUE);
   });
+
+  it.skip("skip test should not be tracked", function (browser) {});
 
   it("[VERIFY] should see all menu items FAIL", function (browser) {
     const resultsPage = browser.page.google.searchResults();
@@ -112,18 +107,17 @@ describe("Google search", function () {
     menuSection.expect.element("@all").to.be.visible;
   });
 
-  it('should fail with ReferenceError', function () {
+  it("should fail with ReferenceError", function () {
     assert.equal([1, 2, 3].indexOf(4), -1);
   });
 
-  it('should fail with TypeError', function () {
-    throw new TypeError('Hello', "someFile.js", 10)
+  it("should fail with TypeError", function () {
+    throw new TypeError("Hello", "someFile.js", 10);
   });
 
-  it('should fail with Error', function () {
+  it("should fail with Error", function () {
     const resultsPage = browser.page.google.searchResults();
     resultsPage.verify.elementHasCount("#hdtb .hdtb-mitem", 5);
     resultsPage.verify.section("@menu").to.be.visible; // should fail here
   });
-
 });

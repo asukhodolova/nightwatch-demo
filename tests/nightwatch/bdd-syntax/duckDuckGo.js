@@ -7,10 +7,9 @@
  * - suiteRetries - how many times to retry the current test suite in case of an assertion failure or error
  */
 
-const {
-  ReporterAPI,
-} = require("../../../../javascript-agent-nightwatch/lib/nightwatch/realTimeReporter");
-ReporterAPI.init();
+//const { ReporterAPI} = require("../../../../javascript-agent-nightwatch/lib/nightwatch/realTimeReporter");
+const { ReporterAPI } = require("@zebrunner/javascript-agent-nightwatch/lib/nightwatch/realTimeReporter");
+
 describe("DuckDuckGo search", function () {
   // skip remaining testcases when one testcase fails
   this.skipTestcasesOnFail = true;
@@ -26,25 +25,34 @@ describe("DuckDuckGo search", function () {
   before((browser) => browser.navigateTo("https://duckduckgo.com"));
 
   beforeEach((browser) => {
-    console.log("BEFORE EACH FROM TEST");
-
+    console.log('---TEST BEFORE_EACH---');
     ReporterAPI.startTest(browser.currentTest);
   });
 
   afterEach((browser) => {
-    console.log("AFTER EACH FROM TEST");
-
+    console.log('---TEST AFTER_EACH---');
     ReporterAPI.finishTest(browser.currentTest);
   });
 
-  after((browser, done) => {
-    console.log("AFTER FROM TEST");
+  it("[PASS] Search Nightwatch.js and check results", async function (browser) {
+    await browser
+      .waitForElementVisible("input[name=q]")
+      .sendKeys("input[name=q]", [SEARCH_VALUE])
+      .click('*[type="submit"]')
+      .assert.visible(".results--main")
+      .assert.textContains(".results--main", SEARCH_VALUE);
 
-    browser.end(() => {
-      ReporterAPI.destroy();
-      done();
-    });
+    await browser
+      .navigateTo("https://www.ecosia.org/")
+      .waitForElementVisible("body")
+      .assert.titleContains("Ecosia")
+      .assert.visible("input[type=search]")
+      .setValue("input[type=search]", "nightwatch")
+      .assert.visible("button[type=submit]")
+      .click("button[type=submit]")
+      .assert.textContains(".layout__content", "Nightwatch.js");
   });
+
 
   it("[FAIL] Search Nightwatch.js and check results", function (browser) {
     browser

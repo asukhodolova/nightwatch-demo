@@ -6,32 +6,18 @@
  * - it() / test() / specify()
  */
 
-const {
-  ReporterAPI,
-} = require("../../../../javascript-agent-nightwatch/lib/nightwatch/realTimeReporter");
-ReporterAPI.init();
+//const { ReporterAPI} = require("../../../../javascript-agent-nightwatch/lib/nightwatch/realTimeReporter");
+const { ReporterAPI } = require("@zebrunner/javascript-agent-nightwatch/lib/nightwatch/realTimeReporter");
+
 context("Ecosia search", function () {
   beforeEach((browser) => {
-    console.log('BEFORE EACH FROM TEST')
-
+    console.log("---TEST BEFORE_EACH---");
     ReporterAPI.startTest(browser.currentTest);
-
-    browser.navigateTo("https://www.ecosia.org/");
   });
 
   afterEach((browser) => {
-    console.log('AFTER EACH FROM TEST')
-
+    console.log("---TEST AFTER_EACH---");
     ReporterAPI.finishTest(browser.currentTest);
-  });
-
-  after((browser, done) => {
-    console.log('AFTER FROM TEST')
-
-    browser.end(() => {
-      ReporterAPI.destroy();
-      done();
-    });
   });
 
   it("Demo ecosia.org 1 via it()", function (browser) {
@@ -47,13 +33,14 @@ context("Ecosia search", function () {
   });
 
   function performSearchAndVerifyResult(browser) {
-    browser
-      .waitForElementVisible("body")
-      .assert.titleContains("Ecosia")
-      .assert.visible("input[type=search]")
-      .setValue("input[type=search]", "nightwatch")
-      .assert.visible("button[type=submit]")
-      .click("button[type=submit]")
-      .assert.textContains(".layout__content", "Nightwatch.js");
+    // browser
+    //   .navigateTo("https://www.ecosia.org/")
+    //   .waitForElementVisible("body")
+    //   .assert.titleContains("Ecosia")
+    //   .assert.visible("input[type=search]")
+    //   .setValue("input[type=search]", "nightwatch")
+    //   .assert.visible("button[type=submit]")
+    //   .click("button[type=submit]")
+    //   .assert.textContains(".layout__content", "Nightwatch.js");
   }
 });

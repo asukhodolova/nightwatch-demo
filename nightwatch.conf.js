@@ -41,7 +41,6 @@ module.exports = {
   parallel_process_delay: 3000,
 
   reporterOptions: {
-    reportDir: './output',
     zebrunnerConfig: {
       enabled: true,
       projectKey: 'ALEX',
@@ -53,7 +52,6 @@ module.exports = {
         displayName: "Demo run",
         build: 'alpha-1',
         environment: 'Local',
-        locale: 'en_US'
       },
     }
   },
@@ -85,17 +83,15 @@ module.exports = {
     },
 
     remote: {
-      // Info on all the available options with "selenium":
-      // https://nightwatchjs.org/guide/reference/settings.html#selenium-server-settings
       selenium: {
         start_process: false,
         server_path: "",
-        host: "localhost",
-        port: 4444,
+        host: "engine.zebrunner.com",
+        port: 443,
       },
 
-      username: "${REMOTE_USERNAME}",
-      access_key: "${REMOTE_ACCESS_KEY}",
+      username: "username",
+      access_key: "access_key",
 
       webdriver: {
         keep_alive: true,
@@ -125,10 +121,8 @@ module.exports = {
         type: "mocha",
         options: {
           ui: "bdd",
-          // reporter: "list",
           reporter: "../javascript-agent-nightwatch/index.js",
           reporterOptions: {
-            reportDir: './output',
             zebrunnerConfig: {
               enabled: true,
               projectKey: 'ALEX',
@@ -140,7 +134,6 @@ module.exports = {
                 displayName: "Demo run",
                 build: 'alpha-1',
                 environment: 'Local',
-                locale: 'en_US'
               },
             }
           }

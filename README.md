@@ -20,11 +20,43 @@ For tests execution using a specific runner, use the command:
 2. Mocha - `npm run test:mocha`
 3. Cucumber - `npm run test:cucumber`
 
-To be able to run in parallel, add `--parallel` argument, for example:
+To be able to run tests in parallel, add `--workers=4` argument to the command above and make sure enabled is set to `true` in `nightwatch.conf.js`:
 
-`npm run test:cucumber -- --parallel=2`
+   ```js
+    test_workers: {
+      enabled: true,
+      workers: "auto",
+    },
+   ```
 
 For more CLI arguments, refer to the [documentation](https://nightwatchjs.org/guide/running-tests/using-the-cli-test-runner.html).
+
+## Running with Selenium Grid 
+
+Add argument to the command `--env remote.chrome` for running tests on remote Selenium Grid but before executing make sure you have valid configuration inside `nightwatch.conf.js`:
+
+   ```js
+    remote: {
+      selenium: {
+        start_process: false,
+        server_path: "",
+        host: "engine.zebrunner.com",
+        port: 443,
+      },
+
+      username: "username",
+      access_key: "access_key",
+    },
+    "remote.chrome": {
+      extends: "remote",
+      desiredCapabilities: {
+        browserName: "chrome",
+        "goog:chromeOptions": {
+          w3c: true,
+        },
+      },
+    },
+   ```
 
 ### Overriding the desired capabilities
 

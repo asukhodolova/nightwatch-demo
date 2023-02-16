@@ -7,8 +7,8 @@
  * - suiteRetries - how many times to retry the current test suite in case of an assertion failure or error
  */
 
-//const { ReporterAPI} = require("../../../../javascript-agent-nightwatch/lib/nightwatch/realTimeReporter");
-const { ReporterAPI } = require("@zebrunner/javascript-agent-nightwatch/lib/nightwatch/realTimeReporter");
+const { ReporterAPI} = require("../../../../javascript-agent-nightwatch/lib/nightwatch/realTimeReporter");
+//const { ReporterAPI } = require("@zebrunner/javascript-agent-nightwatch/lib/nightwatch/realTimeReporter");
 
 describe("DuckDuckGo search", function () {
   // skip remaining testcases when one testcase fails

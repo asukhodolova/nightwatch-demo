@@ -2,18 +2,19 @@
  * Example in 'exports' test syntax https://nightwatchjs.org/guide/writing-tests/test-syntax-exports.html
  */
 
-const { ReporterAPI} = require("../../../../javascript-agent-nightwatch/lib/nightwatch/realTimeReporter");
-//const { ReporterAPI } = require("@zebrunner/javascript-agent-nightwatch/lib/nightwatch/realTimeReporter");
+const { ZebrunnerReporterAPI } = require("../../../../javascript-agent-nightwatch/lib/nightwatch/realTimeReporter");
+//const { ZebrunnerReporterAPI } = require("@zebrunner/javascript-agent-nightwatch/lib/nightwatch/realTimeReporter");
 
 module.exports = {
+
   beforeEach: function (browser) {
     console.log("---TEST BEFORE_EACH---");
-    ReporterAPI.startTest(browser.currentTest);
+    ZebrunnerReporterAPI.startTest(browser);
   },
 
   afterEach: function (browser) {
     console.log("---TEST AFTER_EACH---");
-    ReporterAPI.finishTest(browser.currentTest);
+    ZebrunnerReporterAPI.finishTest(browser);
   },
 
   "step 1: navigate to todo site": async function (browser) {
@@ -39,7 +40,6 @@ module.exports = {
   "skipped step 4: remove todo element": async function (browser) {
     await browser
       .click(".btn__danger")
-      .assert.elementHasCount("#todo-list ul li", 4)
-      .end();
+      .assert.elementHasCount("#todo-list ul li", 4).end();
   },
 };

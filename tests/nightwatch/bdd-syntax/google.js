@@ -17,8 +17,8 @@
  * - [VERIFY] should see all menu items FAIL;
  */
 
-const { ReporterAPI} = require("../../../../javascript-agent-nightwatch/lib/nightwatch/realTimeReporter");
-//const { ReporterAPI } = require("@zebrunner/javascript-agent-nightwatch/lib/nightwatch/realTimeReporter");
+const { ZebrunnerReporterAPI } = require("../../../../javascript-agent-nightwatch/lib/nightwatch/realTimeReporter");
+//const { ZebrunnerReporterAPI } = require("@zebrunner/javascript-agent-nightwatch/lib/nightwatch/realTimeReporter");
 
 describe("Google search", function () {
   this.skipTestcasesOnFail = false;
@@ -38,7 +38,7 @@ describe("Google search", function () {
 
   beforeEach((browser) => {
     console.log("---TEST BEFORE_EACH---");
-    ReporterAPI.startTest(browser.currentTest);
+    ZebrunnerReporterAPI.startTest(browser);
 
     homePage.navigate();
     homePage.setValue("@searchBar", SEARCH_VALUE);
@@ -47,7 +47,7 @@ describe("Google search", function () {
 
   afterEach((browser) => {
     console.log("---TEST AFTER_EACH---");
-    ReporterAPI.finishTest(browser.currentTest);
+    ZebrunnerReporterAPI.finishTest(browser);
   });
 
   it("[EXPECT] should find Zebrunner in results SUCCESS", function (browser) {

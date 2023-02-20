@@ -7,8 +7,8 @@
  * - suiteRetries - how many times to retry the current test suite in case of an assertion failure or error
  */
 
-const { ReporterAPI} = require("../../../../javascript-agent-nightwatch/lib/nightwatch/realTimeReporter");
-//const { ReporterAPI } = require("@zebrunner/javascript-agent-nightwatch/lib/nightwatch/realTimeReporter");
+const { ZebrunnerReporterAPI } = require("../../../../javascript-agent-nightwatch/lib/nightwatch/realTimeReporter");
+//const { ZebrunnerReporterAPI } = require("@zebrunner/javascript-agent-nightwatch/lib/nightwatch/realTimeReporter");
 
 describe("DuckDuckGo search", function () {
   // skip remaining testcases when one testcase fails
@@ -20,57 +20,47 @@ describe("DuckDuckGo search", function () {
   // how many times to retry the current test suite in case of an assertion failure or error
   // this.suiteRetries(2);
 
-  const SEARCH_VALUE = "Nightwatch.js";
-
-  before((browser) => browser.navigateTo("https://duckduckgo.com"));
-
   beforeEach((browser) => {
+    browser.navigateTo("https://duckduckgo.com")
     console.log('---TEST BEFORE_EACH---');
-    ReporterAPI.startTest(browser.currentTest);
+    ZebrunnerReporterAPI.startTest(browser);
   });
 
-  afterEach((browser) => {
+  afterEach(async (browser) => {
+    await browser.end()
     console.log('---TEST AFTER_EACH---');
-    ReporterAPI.finishTest(browser.currentTest);
+    ZebrunnerReporterAPI.finishTest(browser);
   });
 
-  it("[PASS] Search Nightwatch.js and check results", async function (browser) {
-    await browser
-      .waitForElementVisible("input[name=q]")
-      .sendKeys("input[name=q]", [SEARCH_VALUE])
-      .click('*[type="submit"]')
-      .assert.visible(".results--main")
-      .assert.textContains(".results--main", SEARCH_VALUE);
-
-    await browser
-      .navigateTo("https://www.ecosia.org/")
-      .waitForElementVisible("body")
-      .assert.titleContains("Ecosia")
-      .assert.visible("input[type=search]")
-      .setValue("input[type=search]", "nightwatch")
-      .assert.visible("button[type=submit]")
-      .click("button[type=submit]")
-      .assert.textContains(".layout__content", "Nightwatch.js");
-  });
-
-
-  it("[FAIL] Search Nightwatch.js and check results", function (browser) {
+  it("[PASS] Search Nightwatch.js and check results", function (browser) {
+    const searchValue = 'Nightwatch.js';
     browser
       .waitForElementVisible("input[name=q]")
-      .sendKeys("input[name=q]", [SEARCH_VALUE])
+      .sendKeys("input[name=q]", searchValue)
       .click('*[type="submit"]')
       .assert.visible(".results--main")
-      .assert.textEquals(".results--main", SEARCH_VALUE); // should fail here
+      .assert.textContains(".results--main", searchValue);
   });
 
-  it("[SKIP] Search Nightwatch.js and check results", function (browser) {
+  it("[FAIL] Search Zebrunner and check results", function (browser) {
+    const searchValue = 'Zebrunner';
+    browser
+      .waitForElementVisible("input[name=q]")
+      .sendKeys("input[name=q]", searchValue)
+      .click('*[type="submit"]')
+      .assert.visible(".results--main")
+      .assert.textEquals(".results--main",searchValue).end();
+  });
+
+  it("[SKIP] Search Selenium and check results", function (browser) {
+    const searchValue = 'Selenium';
     browser
       .refresh()
       .waitForElementVisible("input[name=q]")
       .clearValue("input[name=q]")
-      .sendKeys("input[name=q]", [SEARCH_VALUE])
+      .sendKeys("input[name=q]", searchValue)
       .click('*[type="submit"]')
       .assert.visible(".results--main")
-      .assert.textContains(".results--main", SEARCH_VALUE);
+      .assert.textContains(".results--main", searchValue);
   });
 });

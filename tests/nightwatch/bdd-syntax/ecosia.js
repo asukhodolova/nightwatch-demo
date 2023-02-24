@@ -6,8 +6,8 @@
  * - it() / test() / specify()
  */
 
-const { ZebrunnerReporterAPI } = require("../../../../javascript-agent-nightwatch/lib/nightwatch/realTimeReporter");
-//const { ZebrunnerReporterAPI } = require("@zebrunner/javascript-agent-nightwatch/lib/nightwatch/realTimeReporter");
+//const { ZebrunnerReporterAPI } = require("../../../../javascript-agent-nightwatch/lib/index");
+const { ZebrunnerReporterAPI } = require("@zebrunner/javascript-agent-nightwatch/lib/index");
 
 context("Ecosia search", function () {
 

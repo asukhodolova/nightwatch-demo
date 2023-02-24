@@ -2,10 +2,14 @@
  * Example in 'exports' test syntax https://nightwatchjs.org/guide/writing-tests/test-syntax-exports.html
  */
 
-const { ZebrunnerReporterAPI } = require("../../../../javascript-agent-nightwatch/lib/nightwatch/realTimeReporter");
-//const { ZebrunnerReporterAPI } = require("@zebrunner/javascript-agent-nightwatch/lib/nightwatch/realTimeReporter");
+//const { ZebrunnerReporterAPI } = require("../../../../javascript-agent-nightwatch/lib/index");
+const { ZebrunnerReporterAPI } = require("@zebrunner/javascript-agent-nightwatch/lib/index");
 
 module.exports = {
+
+  // before: function(browser) {
+  //   assert.equal([1, 2, 3].indexOf(4), -1);
+  // },
 
   beforeEach: function (browser) {
     console.log("---TEST BEFORE_EACH---");
@@ -34,6 +38,6 @@ module.exports = {
   "step two: click submit": function (browser) {
     browser
       .click("button[type=submit]")
-      .assert.containsText(".layout__content", "Nightwatch.js");
+      .assert.textContains(".layout__content", "Nightwatch.js");
   },
 };

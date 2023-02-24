@@ -7,8 +7,8 @@
  * - suiteRetries - how many times to retry the current test suite in case of an assertion failure or error
  */
 
-const { ZebrunnerReporterAPI } = require("../../../../javascript-agent-nightwatch/lib/nightwatch/realTimeReporter");
-//const { ZebrunnerReporterAPI } = require("@zebrunner/javascript-agent-nightwatch/lib/nightwatch/realTimeReporter");
+//const { ZebrunnerReporterAPI } = require("../../../../javascript-agent-nightwatch/lib/index");
+const { ZebrunnerReporterAPI } = require("@zebrunner/javascript-agent-nightwatch/lib/index");
 
 describe("DuckDuckGo search", function () {
   // skip remaining testcases when one testcase fails
@@ -20,6 +20,10 @@ describe("DuckDuckGo search", function () {
   // how many times to retry the current test suite in case of an assertion failure or error
   // this.suiteRetries(2);
 
+  before((browser) => {
+    //assert.equal([1, 2, 3].indexOf(4), -1);
+  });
+
   beforeEach((browser) => {
     browser.navigateTo("https://duckduckgo.com")
     console.log('---TEST BEFORE_EACH---');
@@ -28,6 +32,7 @@ describe("DuckDuckGo search", function () {
 
   afterEach(async (browser) => {
     await browser.end()
+    console.log(browser.currentTest)
     console.log('---TEST AFTER_EACH---');
     ZebrunnerReporterAPI.finishTest(browser);
   });

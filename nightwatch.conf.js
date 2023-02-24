@@ -1,15 +1,5 @@
-// Refer to the online docs for more details:
-// https://nightwatchjs.org/gettingstarted/configuration/
-//
-
-//  _   _  _         _      _                     _          _
-// | \ | |(_)       | |    | |                   | |        | |
-// |  \| | _   __ _ | |__  | |_ __      __  __ _ | |_   ___ | |__
-// | . ` || | / _` || '_ \ | __|\ \ /\ / / / _` || __| / __|| '_ \
-// | |\  || || (_| || | | || |_  \ V  V / | (_| || |_ | (__ | | | |
-// \_| \_/|_| \__, ||_| |_| \__|  \_/\_/   \__,_| \__| \___||_| |_|
-//             __/ |
-//            |___/
+//const { ZebrunnerConfigurator } = require("../javascript-agent-nightwatch/lib/index");
+const { ZebrunnerConfigurator } = require("@zebrunner/javascript-agent-nightwatch/lib/index");
 
 module.exports = {
   // An array of folders (excluding subfolders) where your tests are located;
@@ -34,24 +24,35 @@ module.exports = {
   webdriver: {},
 
   test_workers: {
-    enabled: false,
+    enabled: true,
     workers: "auto",
   },
 
+  live_output: true,
   parallel_process_delay: 3000,
 
   reporterOptions: {
     zebrunnerConfig: {
       enabled: true,
-      projectKey: 'ALEX',
+      projectKey: 'ANNAS',
       server: {
-        hostname: 'https://solvdalexkirillov.zebrunner.com',
-        accessToken: 'EGRk61Xxl41T5XyWkdsJDgslkgUdULrmYpYiS0Zt65YT5NGjr6'
+        hostname: 'https://solvdinternal.zebrunner.com/',
+        accessToken: 'CAve1wEDfcbfWuhMdtoPHAaDdaMCOyaUUR7ykFRvi7YwipX6Ee'
       },
       run: {
-        displayName: "Demo run",
+        displayName: "Nightwatch run",
         build: 'alpha-1',
         environment: 'Local',
+      },
+      milestone: {
+        id: 1,
+        name: 'Release 1.0.0',
+      },
+      notifications: {
+        notifyOnEachFailure: false,
+        slackChannels: 'dev, qa',
+        teamsChannels: 'dev-channel, management',
+        emails: 'asukhodolova@solvd.com',
       },
     }
   },
@@ -82,39 +83,28 @@ module.exports = {
       },
     },
 
-    remote: {
+    zebrunner: ZebrunnerConfigurator.configureLauncher({
       selenium: {
         start_process: false,
-        server_path: "",
-        host: "engine.zebrunner.com",
+        server_path: '',
+        host: 'engine.zebrunner.com',
         port: 443,
       },
 
-      username: "username",
-      access_key: "access_key",
+      username: 'solvdinternal',
+      access_key: 'O9JjPcqxJ0hPs685',
 
       webdriver: {
-        keep_alive: true,
         start_process: false,
       },
-    },
-
-    "remote.chrome": {
-      extends: "remote",
       desiredCapabilities: {
-        browserName: "chrome",
-        "goog:chromeOptions": {
+        browserName: 'chrome',
+        'goog:chromeOptions': {
           w3c: true,
         },
+        'zebrunner:provider': 'ZEBRUNNER',
       },
-    },
-
-    "remote.custom": {
-      extends: "remote",
-      desiredCapabilities: {
-        browserName: "${BROWSER}",
-      },
-    },
+    }),
 
     mocha_tests: {
       test_runner: {

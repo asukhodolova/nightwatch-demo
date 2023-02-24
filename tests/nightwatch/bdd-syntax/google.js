@@ -17,8 +17,8 @@
  * - [VERIFY] should see all menu items FAIL;
  */
 
-const { ZebrunnerReporterAPI } = require("../../../../javascript-agent-nightwatch/lib/nightwatch/realTimeReporter");
-//const { ZebrunnerReporterAPI } = require("@zebrunner/javascript-agent-nightwatch/lib/nightwatch/realTimeReporter");
+//const { ZebrunnerReporterAPI } = require("../../../../javascript-agent-nightwatch/lib/index");
+const { ZebrunnerReporterAPI } = require("@zebrunner/javascript-agent-nightwatch/lib/index");
 
 describe("Google search", function () {
   this.skipTestcasesOnFail = false;

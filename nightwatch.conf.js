@@ -1,5 +1,5 @@
-//const { ZebrunnerConfigurator } = require("../javascript-agent-nightwatch/lib/index");
-const { ZebrunnerConfigurator } = require("@zebrunner/javascript-agent-nightwatch/lib/index");
+//const { ZebrunnerConfigurator } = require("../javascript-agent-nightwatch");
+const { ZebrunnerConfigurator } = require("@zebrunner/javascript-agent-nightwatch");
 
 module.exports = {
   // An array of folders (excluding subfolders) where your tests are located;

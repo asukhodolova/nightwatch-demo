@@ -43,6 +43,14 @@ module.exports = {
         displayName: "Nightwatch run",
         build: 'alpha-1',
         environment: 'Local',
+        locale: 'en_US',
+        labels: {
+          runner: 'Alice',
+          reviewer: 'Bob',
+        },
+        artifactReferences: {
+          landing: 'https://zebrunner.com',
+        },
       },
       milestone: {
         id: 1,
@@ -52,7 +60,7 @@ module.exports = {
         notifyOnEachFailure: false,
         slackChannels: 'dev, qa',
         teamsChannels: 'dev-channel, management',
-        emails: 'asukhodolova@solvd.com',
+        // emails: 'asukhodolova@solvd.com',
       },
     }
   },

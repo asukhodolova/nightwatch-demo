@@ -23,7 +23,7 @@
     "prettier": "^2.8.2"
   },
   "dependencies": {
-    "@zebrunner/javascript-agent-nightwatch": "^1.0.8",
+    "@zebrunner/javascript-agent-nightwatch": "^1.0.9",
     "node-ipc": "^11.1.0"
   }
 }

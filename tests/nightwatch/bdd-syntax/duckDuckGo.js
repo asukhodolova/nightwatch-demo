@@ -8,8 +8,8 @@
  */
 
 const fs = require('fs');
-//const { ZebrunnerReporterAPI } = require("../../../../javascript-agent-nightwatch");
-const { ZebrunnerReporterAPI, CurrentTestRun, CurrentTest } = require("@zebrunner/javascript-agent-nightwatch");
+//const { ZebrunnerReporterAPI, CurrentTestRun, CurrentTest, TestRail, Xray, Zephyr, Zebrunner, } = require("../../../../javascript-agent-nightwatch");
+const { ZebrunnerReporterAPI, CurrentTestRun, CurrentTest, TestRail, Xray, Zephyr, Zebrunner, } = require("@zebrunner/javascript-agent-nightwatch");
 
 
 describe("DuckDuckGo search", function () {
@@ -51,6 +51,12 @@ describe("DuckDuckGo search", function () {
   });
 
   it("[PASS] Search Nightwatch.js and check results", function (browser) {
+    TestRail.testCaseId(browser, '3435', 'C3438');
+    TestRail.testCaseStatus(browser, '3435', 'failed');
+    Xray.testCaseKey(browser, 'QT-2');
+    Zephyr.testCaseKey(browser, 'QT-T1');
+    Zebrunner.testCaseKey(browser, 'ANNAS-1', 'ANNAS-4');
+
     CurrentTest.attachLabel(browser, 'test', 'pass');
     CurrentTest.attachLabel(browser, 'owner', 'developer');
 
@@ -64,6 +70,11 @@ describe("DuckDuckGo search", function () {
   });
 
   it("[FAIL] Search Zebrunner and check results", function (browser) {
+    TestRail.testCaseId(browser, '3436', '3477');
+    Xray.testCaseKey(browser, 'QT-10', 'QT-11');
+    Zephyr.testCaseKey(browser, 'QT-T2');
+    Zebrunner.testCaseKey(browser, 'ANNAS-2');
+
     CurrentTest.attachArtifactReference(browser, 'nightwatch', 'https://nightwatchjs.org/');
 
     const searchValue = 'Zebrunner';
@@ -76,6 +87,11 @@ describe("DuckDuckGo search", function () {
   });
 
   it("[SKIP] Search Selenium and check results", function (browser) {
+    TestRail.testCaseId(browser, '3478');
+    Xray.testCaseKey(browser, 'QT-18');
+    Zephyr.testCaseKey(browser, 'QT-T3');
+    Zebrunner.testCaseKey(browser, 'ANNAS-3');
+    
     const searchValue = 'Selenium';
     browser
       .refresh()

@@ -62,6 +62,38 @@ module.exports = {
         teamsChannels: 'dev-channel, management',
         // emails: 'asukhodolova@solvd.com',
       },
+      tcm: {
+        testCaseStatus: {
+          onPass: '',
+          onFail: '',
+        },
+        zebrunner: {
+          pushResults: false,
+          pushInRealTime: true,
+          testRunId: 17,
+        },
+        testRail: {
+          pushResults: false,
+          pushInRealTime: true,
+          suiteId: 174,
+          runId: 642,
+          includeAllTestCasesInNewRun: true,
+          runName: 'Nightwatch Run',
+          milestoneName: 'Nightwatch milestone',
+          assignee: 'developer@zebrunner.com',
+        },
+        xray: {
+          pushResults: false,
+          pushInRealTime: true,
+          executionKey: 'QT-1',
+        },
+        zephyr: {
+          pushResults: false,
+          pushInRealTime: true,
+          jiraProjectKey: 'QT',
+          testCycleKey: 'QT-R5',
+        },
+      },
     }
   },
 
